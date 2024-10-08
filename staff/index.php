@@ -122,6 +122,7 @@ include_once('../model/controller.php');
                                                 <div class="d-grid mt-3">
                                                     <button class="btn btn-danger" type="submit"><input type="hidden" name="loguser"/>Log In <i class="fas fa-sign-in-alt ms-1"></i></button>
                                                 </div>
+                                                <center><a class="btn btn-blue mt-2" style="background-color: lightgrey;" href="../">Student Login</a></center>                                
                                             </div><!--end col--> 
                                         </div> <!--end form-group-->                           
                                     </form><!--end form-->

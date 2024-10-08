@@ -1,5 +1,5 @@
 <?php
-include_once('./model/controller.php');
+include_once('../model/controller.php');
 if(isset($_POST['cls'])){
     $cls = $_POST['cls'];
     $status = 'closed';

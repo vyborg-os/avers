@@ -1,22 +1,21 @@
 <?php
 include_once('header.php');
-if(isset($_POST['addsec'])){
-    $matric_no = $matric;
-    $lecturer_id = secure($_POST['lecturer']);
-    $message = secure($_POST['message']);
-    $status = 'pending';
- if(!empty($lecturer_id) || !empty($message)){
+if(isset($_POST['updatesec'])){
+    $complaints_id = secure($_POST['complaints_id']);
+    $feedback = secure($_POST['feedback']);
+    $status = secure($_POST['status']);;
+ if(!empty($feedback) || !empty($status)){
     try{
-            $chk = add_com($lecturer_id, $matric_no, $message,$status);
+            $chk = update_com($complaints_id, $feedback, $status);
                 if($chk==true){
                     //$success = "Account Created Successfully!";
                     echo '<script>
-                            alert("Complaints Submitted Successfully!");
+                            alert("Complaints Updated Successfully!");
                     </script>';
                 }else{
                     //$error = "Cannot Add try later";
                     echo '<script>
-                            alert("Cannot Submit Complaints try later");
+                            alert("Cannot Update Complaints try later");
                     </script>';
                 }
                 } catch(Exception $e){
@@ -34,7 +33,7 @@ if(isset($_POST['addsec'])){
 
 ?>
 <div class="row">
-    <div class="col-6">
+    <div class="col-7">
         <div class="card">
             <div class="card-header">
                 <div class="row align-items-center">
@@ -78,7 +77,7 @@ if(isset($_POST['addsec'])){
                             </div><!--end form-group--> 
                            
                             <div class="form-group mb-2">
-                               <center> <button type="submit" class="btn btn-blue btn-lg"><input type="hidden" name="addsec"/> Submit</button>  </center>                          
+                               <center> <button type="submit" class="btn btn-blue btn-lg"><input type="hidden" name="updatesec"/> Submit</button>  </center>                          
                             </div><!--end form-group--> 
                             <?php } } ?>
                                                                     
@@ -89,7 +88,7 @@ if(isset($_POST['addsec'])){
     </div> <!--end col-->                                                       
 </div><!--end row-->
 
-<div class="col-lg-6 mb-3">
+<div class="col-lg-5 mb-3">
 <?php
 $lecturer_id = $user_id;
 $ft = getComl($lecturer_id);
@@ -102,21 +101,29 @@ while ($fetch = $ft->fetch_assoc()) {
     $feedback = $fetch['feedback'];
     $date = $fetch['date'];
         if($status=='pending'){ ?>
-        <div class="card" style="background-color: orange; color: white;">
-            <div style="padding: 20px 20px;">
+        <div class="card bg-pink-subtle" style="color: black;">
+        <span class="bg-pink-subtle p-1 rounded text-pink fw-medium">New/Pending complaints</span>    
+        <div style="padding: 20px 20px;">
             <p><b>Date:</b> <?php echo $date; ?></p>
             <p><b>Student Matric:</b> <a style="color: blue;" href="view_user?matric_no=<?php echo $matric_no; ?>"><?php echo $matric_no; ?></a></p>
             <p><b>Message:</b> <?php echo $message; ?></p>
             <p><b>Feedback:</b> <?php echo $feedback; ?></p>
             <p><b>Status:</b> <?php if($status=='pending'){ ?> <span style="color: red;"><?php echo ucfirst($status); ?></span> <?php }else{?><span style="color: blue;"><?php echo ucfirst($status); ?></span> <?php } ?></p>
             </div>
-            <a href="complaints?complaints_id=<?php echo $complaints_id; ?>" class="btn btn-blue btn-sm">View</a>
+            <div class="row">
+            <div class="col-lg-6">
+            <a href="complaints?complaints_id=<?php echo $complaints_id; ?>" class="btn btn-pink btn-sm">View</a>
+           
+            <a class="delc btn btn-danger btn-sm" id="<?php echo $complaints_id; ?>">Delete</a>
+            </div>
+        </div>
         </div>
     <?php    
     }
         else{
         ?>
     <div class="card">
+    <span class="bg-success-subtle p-1 rounded text-success fw-medium">Resolved complaints</span>    
             <div style="padding: 20px 20px;">
             <p><b>Date:</b> <?php echo $date; ?></p>
             <p><b>Student Matric:</b> <a style="color: blue;" href="view_user?matric_no=<?php echo $matric_no; ?>"><?php echo $matric_no; ?></a></p>
@@ -124,7 +131,12 @@ while ($fetch = $ft->fetch_assoc()) {
             <p><b>Feedback:</b> <?php echo $feedback; ?></p>
             <p><b>Status:</b> <?php if($status=='pending'){ ?> <span style="color: red;"><?php echo ucfirst($status); ?></span> <?php }else{?><span style="color: blue;"><?php echo ucfirst($status); ?></span> <?php } ?></p>
             </div>
-            <a href="complaints?complaints_id=<?php echo $complaints_id; ?>" class="btn btn-blue btn-sm">View</a>
+            <div class="row">
+            <div class="col-lg-6">
+            <a href="complaints?complaints_id=<?php echo $complaints_id; ?>" class="btn btn-success btn-sm">View</a>
+           
+            <a class="delc btn btn-danger btn-sm" id="<?php echo $complaints_id; ?>">Delete</a>
+            </div>
         </div>
         <?php
         }
@@ -136,16 +148,16 @@ while ($fetch = $ft->fetch_assoc()) {
 }
 ?>
   </div> 
-<script src="./assets/js/jquery.min.js"></script>
+<script src="../assets/js/jquery.min.js"></script>
 <script type="text/javascript">
  $(document).ready(function(){
- $('.del').click(function(){
-    var del = $(this).attr("id");
-    if(confirm("Delete this Result?")){
+ $('.delc').click(function(){
+    var delc = $(this).attr("id");
+    if(confirm("Delete this Complaint?")){
         $.ajax({
         url:'ajax.php',
         method:'POST',
-        data:'del='+del,
+        data:'delc='+delc,
         success:function(data){
             alert(data);
             location.reload();

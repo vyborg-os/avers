@@ -157,6 +157,13 @@ if($_SESSION["matric_no"]){
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="./outstanding" role="button"
+                                aria-expanded="false" aria-controls="sidebarDashboards">
+                                <i class="iconoir-book menu-icon"></i>
+                                <span>Outstanding Courses</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="./results" role="button"
                                 aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="iconoir-reports menu-icon"></i>

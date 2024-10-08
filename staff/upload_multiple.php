@@ -154,7 +154,7 @@ if(isset($_POST['addrec'])){
     </div> <!--end col-->                                                        
 </div><!--end row-->
 
-<script src="./assets/js/jquery.min.js"></script>
+<script src="../assets/js/jquery.min.js"></script>
 <script type="text/javascript">
  $(document).ready(function(){
  $('.del').click(function(){

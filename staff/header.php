@@ -198,7 +198,27 @@ if($_SESSION["username"]){
                             <a class="nav-link" href="complaints" role="button"
                                 aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="iconoir-mail menu-icon"></i>
-                                <span>Complaints</span>
+                                <span>Complaints 
+                                <span class="bg-danger border border-light rounded-circle">
+                                          <small class="thumb-xs text-white">
+                                          <?php
+                                            $lecturer_id = $user_id;
+                                            $count = 0;
+                                            $ft = getComl($lecturer_id);
+                                            if(mysqli_num_rows($ft) > 0){
+                                            while ($fetch = $ft->fetch_assoc()) { 
+                                                $status = $fetch['status'];
+                                                if($status=='pending'){
+                                                    $count = $count + 1;
+                                                }
+                                            }
+                                        }
+                                        echo $count;
+                                        ?>
+
+                                          </small>
+                                        </span>        
+                            </span>
                             </a>
                         </li>
                             

@@ -72,6 +72,17 @@ include_once ('config.php');
 		$result = $stmt->get_result();
 		return $result;
 	}
+	function delCom($delc){
+		require 'config.php';
+		$stmt = $mysqli->prepare("DELETE FROM complaints WHERE complaints_id='$delc' LIMIT 1");
+		if($stmt->execute()){
+			return true;
+		}else{
+			return false;
+		}
+		$result = $stmt->get_result();
+		return $result;
+	}
 	function deleteAlt($del){
 		require 'config.php';
 		$stmt = $mysqli->prepare("DELETE FROM alerts WHERE alert_id='$del' LIMIT 1");
@@ -144,6 +155,16 @@ include_once ('config.php');
         
 		//fetch all user
 		$stmt = $mysqli->prepare("SELECT * FROM lecturer where email = '$em' || username = '$em'");
+		$stmt->execute();
+		$result = $stmt->get_result();
+		return $result;
+	}
+	function getOutstanding($matric_no){
+		//Require Databse config file
+		require 'config.php';
+        
+		//fetch all user
+		$stmt = $mysqli->prepare("SELECT * FROM scoresheet where matric_no = '$matric_no' && (test + exam) < 40 ORDER BY id DESC");
 		$stmt->execute();
 		$result = $stmt->get_result();
 		return $result;
@@ -257,7 +278,7 @@ include_once ('config.php');
 		require 'config.php';
         
 		//fetch all user
-		$stmt = $mysqli->prepare("SELECT * FROM complaints where matric_no = '$matric_no'");
+		$stmt = $mysqli->prepare("SELECT * FROM complaints where matric_no = '$matric_no' ORDER BY complaints_id DESC");
 		$stmt->execute();
 		$result = $stmt->get_result();
 		return $result;

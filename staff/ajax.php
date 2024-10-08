@@ -1,5 +1,5 @@
 <?php
-include_once('./model/controller.php');
+include_once('../model/controller.php');
 if(isset($_POST['cls'])){
     $cls = $_POST['cls'];
     $status = 'closed';
@@ -15,6 +15,15 @@ if(isset($_POST['del'])){
     $chk = deleteInc($del);
         if($chk==TRUE){
             echo 'Result Deleted';
+        }else{
+            echo 'Error, try again';
+        }
+    }
+if(isset($_POST['delc'])){
+    $delc = $_POST['delc'];
+    $chk = delCom($delc);
+        if($chk==TRUE){
+            echo 'Complaint Deleted';
         }else{
             echo 'Error, try again';
         }
